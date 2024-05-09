@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellsLibrary", "BellsLibrary.csproj", "{A8330CDD-3B8E-4146-B323-D1484CFB1CBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8330CDD-3B8E-4146-B323-D1484CFB1CBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8330CDD-3B8E-4146-B323-D1484CFB1CBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8330CDD-3B8E-4146-B323-D1484CFB1CBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8330CDD-3B8E-4146-B323-D1484CFB1CBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8EA96EB5-62FE-4EBD-B902-B467A055859C}
+	EndGlobalSection
+EndGlobal
