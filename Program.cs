@@ -1,6 +1,8 @@
 using BellsLibrary.Data;
 using BellsLibrary.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,12 +15,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<DataSeeder>();
 
-builder.Services.AddDbContext<LibraryContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<LibraryContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'LibraryContext' not found.")));
 
 var app = builder.Build();
 
@@ -28,6 +28,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -35,9 +42,12 @@ app.UseRouting();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.MapRazorPages();
 //app.MapControllers();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
