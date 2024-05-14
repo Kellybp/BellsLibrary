@@ -20,7 +20,7 @@ namespace BellsLibrary.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Book>>> GetAllAccounts() {
+        public async Task<ActionResult<List<Account>>> GetAllAccounts() {
 
             var accounts = await _context.Accounts.ToListAsync();
 
@@ -31,7 +31,7 @@ namespace BellsLibrary.Controllers
         public async Task<ActionResult<Account>> GetAccountById(int id)
         {
 
-            var account = await _context.Books.FindAsync(id);
+            var account = await _context.Accounts.FindAsync(id);
             if (account == null)
                 return BadRequest("Account not found");
 
@@ -40,22 +40,20 @@ namespace BellsLibrary.Controllers
 
         [HttpPost]
         public async Task<ActionResult<Account>> AddAccount(Account account)
-            //Create Data Transfer Object (DTO)
         {
             
             _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.Books.ToListAsync());
+            return Ok(await _context.Accounts.ToListAsync());
         }
 
         [HttpPut]
         public async Task<ActionResult<Account>> EditAccount(Account updatedAccount)
-        //Create Data Transfer Object (DTO)
         {
             var account = await _context.Accounts.FindAsync(updatedAccount.ID);
             if (account == null)
-                return BadRequest("Book not found");
+                return BadRequest("Account not found");
 
             account.AccountType = updatedAccount.AccountType;
             account.UserName = updatedAccount.UserName;
@@ -65,21 +63,21 @@ namespace BellsLibrary.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.Books.ToListAsync());
+            return Ok(await _context.Accounts.ToListAsync());
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Account>> DeleteAccount(int id)
         {
 
-            var account = await _context.Books.FindAsync(id);
+            var account = await _context.Accounts.FindAsync(id);
             if (account == null)
-                return BadRequest("Book not found");
+                return BadRequest("Account not found");
 
-            _context.Books.Remove(account);
+            _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.Books.ToListAsync());
+            return Ok(await _context.Accounts.ToListAsync());
         }
     }
 }

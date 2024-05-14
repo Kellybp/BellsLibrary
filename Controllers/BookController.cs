@@ -40,7 +40,6 @@ namespace BellsLibrary.Controllers
 
         [HttpPost]
         public async Task<ActionResult<Book>> AddBook(Book book)
-            //Create Data Transfer Object (DTO)
         {
             
             _context.Books.Add(book);
@@ -51,7 +50,6 @@ namespace BellsLibrary.Controllers
 
         [HttpPut]
         public async Task<ActionResult<Book>> EditBook(Book updatedBook)
-        //Create Data Transfer Object (DTO)
         {
             var book = await _context.Books.FindAsync(updatedBook.ID);
             if (book == null)
