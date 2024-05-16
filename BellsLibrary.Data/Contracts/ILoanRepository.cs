@@ -2,6 +2,6 @@
 
 namespace BellsLibrary.Data.Contracts
 {
-    internal interface ILoanRepository : IRepository<BLM.Loan>
+    public interface ILoanRepository : IRepository<BLM.Loan>
     { }
 }

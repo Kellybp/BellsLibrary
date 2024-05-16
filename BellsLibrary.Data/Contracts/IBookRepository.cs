@@ -2,6 +2,6 @@
 
 namespace BellsLibrary.Data.Contracts
 {
-    internal interface IBookRepository : IRepository<BLM.Book>
+    public interface IBookRepository : IRepository<BLM.Book>
     { }
 }
