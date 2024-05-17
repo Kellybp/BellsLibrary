@@ -1,25 +1,54 @@
-var builder = WebApplication.CreateBuilder(args);
+using BellsLibrary.UI.Components;
+using Microsoft.FluentUI.AspNetCore.Components;
+using BellsLibrary.UI.Services.Extensions;
 
-// Add services to the container.
-builder.Services.AddRazorPages();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+namespace BellsLibrary.UI
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            AddUIServices(builder);
+
+            AddBlazorComponents(builder);
+
+            var app = builder.Build();
+
+            ConfigureBlazorComonents(app);
+
+            app.Run();
+        }
+        private static void ConfigureBlazorComonents(WebApplication app)
+        {
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+            app.UseAntiforgery();
+
+            app.MapRazorComponents<App>()
+                .AddInteractiveServerRenderMode();
+        }
+
+        private static void AddUIServices(WebApplicationBuilder builder)
+        {
+            builder.Services.AddUIServices(builder.Configuration);
+        }
+
+        private static void AddBlazorComponents(WebApplicationBuilder builder)
+        {
+            builder.Services.AddRazorComponents()
+                            .AddInteractiveServerComponents();
+
+            builder.Services.AddFluentUIComponents();
+        }
+    
+    }
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
-
-app.Run();

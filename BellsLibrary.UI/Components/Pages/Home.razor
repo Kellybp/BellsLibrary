@@ -1,0 +1,27 @@
+﻿@page "/"
+@using Microsoft.FluentUI.AspNetCore.Components
+
+<PageTitle>BellsLibrary</PageTitle>
+
+<FluentSpacer Width="50"></FluentSpacer>
+
+<h1>BellsLibrary</h1>
+
+<p>The best pizza place in the world...</p>
+
+<FluentSpacer Width="50"></FluentSpacer>
+
+<FluentGrid >
+    <FluentGridItem xs="4">
+        <FluentCard>
+            <FluentSpacer Width="100" />
+            <p><FluentAnchor Href="books" Appearance="Appearance.Hypertext">Manage Sauce(s)</FluentAnchor></p>
+        </FluentCard>
+    </FluentGridItem>
+    <FluentGridItem xs="4">
+        <FluentCard>
+            <FluentSpacer Width="100" />
+            <p><FluentAnchor Href="loans" Appearance="Appearance.Hypertext">Manage Topping(s)</FluentAnchor></p>
+        </FluentCard>
+    </FluentGridItem>
+</FluentGrid>

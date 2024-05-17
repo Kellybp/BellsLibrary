@@ -6,7 +6,7 @@ namespace BellsLibrary.UI.Services.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddAdminUIServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddUIServices(this IServiceCollection services, IConfiguration configuration)
         {
             var apiUrl = configuration["Api:Url"]!;
             services.AddHttpClient("AdminApi", client =>

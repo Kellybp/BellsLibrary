@@ -1,13 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
-using BLM = BellsLibrary.Data.Models;
-using BellsLibrary.Data.Initializer;
+﻿using BLM = BellsLibrary.Data.Models;
 using BellsLibrary.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using BellsLibrary.Data.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace BellsLibrary.Data
 {
-    public class BellsLibraryContext : DbContext
+    public class BellsLibraryContext : IdentityDbContext
     {
         public DbSet<BLM.Book> Books { get; set; }
         public DbSet<BLM.Loan> Loans { get; set; }

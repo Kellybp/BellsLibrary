@@ -7,7 +7,7 @@ namespace BellsLibrary.UI.Services
     public class BookService : IBookService
     {
         private readonly HttpClient _httpClient;
-        private const string _baseUri = "/api/book";
+        private const string _baseUri = "/api/books";
 
         public BookService(IHttpClientFactory httpClientFactory)
         {
