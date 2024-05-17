@@ -15,7 +15,7 @@ namespace BellsLibrary.Data.Repositories
         public async Task<IEnumerable<BLM.Book>> GetAllAsync()
         {
             var result =  await _context.Books
-                                .OrderByDescending(b => b.Title)
+                                .OrderBy(b => b.Title)
                                 .ToListAsync();
             return result; 
         }

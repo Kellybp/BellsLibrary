@@ -69,9 +69,9 @@ namespace BellsLibrary.Data.Initializer
         public Faker<Loan> GetLoanGenerator(List<Book> books)
         {
 
-            Guid[] bookIds = new Guid[0];
+            Guid[] bookIds = new Guid[books.Count];
 
-            for (int x = 0; x == books.Count; x++)
+            for (int x = 0; x < books.Count; x++)
             {
                 bookIds[x] = books[x].Id;
             }
