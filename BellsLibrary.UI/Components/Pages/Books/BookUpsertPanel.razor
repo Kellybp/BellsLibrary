@@ -1,0 +1,184 @@
+﻿@using BellsLibrary.API.Services.Models
+@using Microsoft.FluentUI.AspNetCore.Components
+
+@implements IDialogContentComponent<BookEntity>
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical">
+        @* Title *@
+        <FluentTextField @bind-Value="@Content.Title">
+            <LabelTemplate>
+                <FluentLabel Weight="FontWeight.Bold">
+                    <FluentStack Orientation="Orientation.Horizontal">
+                        <span>Book Title</span>
+                        <FluentLabel Color="Color.Error">*</FluentLabel>
+                    </FluentStack>  
+                </FluentLabel>
+            </LabelTemplate>
+        </FluentTextField>
+        <FluentSpacer Width="10" />
+        @* Description *@
+        <FluentTextArea Cols="60" Rows="5" @bind-Value="@Content.Description">
+            <LabelTemplate>
+                <FluentLabel Weight="FontWeight.Bold">
+                    Description
+                </FluentLabel>
+            </LabelTemplate>
+        </FluentTextArea>
+        <FluentSpacer Width="10" />
+        @* IsFeatured *@
+        <FluentCheckbox @bind-Value="@Content.IsFeatured">Is Featured</FluentCheckbox>
+        @* Image *@
+        <FluentInputFile Id="my-file-uploader"
+                         Mode="InputFileMode.SaveToTemporaryFolder"
+                         Multiple="false"
+                         MaximumFileCount="1"
+                         MaximumFileSize="@(10*1024*1024)"
+                         Accept="image/*"
+                         @bind-ProgressPercent="@ProgressPercent"
+                         OnCompleted="@OnCompletedAsync"
+                         Style="height: 300px; border: 1px dashed var(--accent-fill-rest);">
+            <ChildContent>
+                <label for="my-file-uploader">
+                    <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+                </label>
+
+                <div>
+                    Drag files here you wish to upload,
+                    or <label for="my-file-uploader">browse</label>
+                    for them<span style="color: red;">*</span>.
+                    <br />
+                    <em>Maximum of 4 files allowed.</em>
+                </div>
+
+                <div>
+                    <br />
+                    <a href="#">Read more about our supported file formats.</a>
+                </div>
+            </ChildContent>
+        </FluentInputFile>
+
+        @if (Files.Any())
+        {
+            <h4>File(s) uploaded:</h4>
+            <ul>
+                @foreach (var file in Files)
+                {
+                    <li>
+                        <b>@file.Name</b> 🔹
+                        @($"{Decimal.Divide(file.Size, 1024):N} KB") 🔹
+                        @file.ContentType 🔹
+                        @file.LocalFile?.FullName
+                        @file.ErrorMessage
+                    </li>
+                }
+            </ul>
+        }
+
+       @*  <FluentFileInput @bind-Value="@UploadedFile" Label="Cover Image" OnChange="HandleFileUpload" />
+        <img alt="Cover Image Preview" src="@CoverImagePreview" style="max-width: 200px; max-height: 200px;" /> *@
+
+        @* Publication Date *@
+        @* <FluentDatePicker @bind-Value="@Content.PublicationDate" Label="Publication Date" Style="height: 250px;" /> *@
+        @* ISBN *@
+        <FluentTextField @bind-Value="@Content.ISBN">
+            <LabelTemplate>
+                <FluentLabel Weight="FontWeight.Bold">
+                    <FluentStack Orientation="Orientation.Horizontal">
+                        <span>Book ISBN</span>
+                        <FluentLabel Color="Color.Error">*</FluentLabel>
+                    </FluentStack>  
+                </FluentLabel>
+            </LabelTemplate>
+        </FluentTextField>
+        @* PgCount *@
+        <FluentNumberField @bind-Value="@Content.PgCount">
+            <LabelTemplate>
+                <FluentLabel Weight="FontWeight.Bold">
+                    <FluentStack Orientation="Orientation.Horizontal">
+                        <span>Book PgCount</span>
+                        <FluentLabel Color="Color.Error">*</FluentLabel>
+                    </FluentStack>  
+                </FluentLabel>
+            </LabelTemplate>
+        </FluentNumberField>
+        @* Author *@
+        <FluentTextField @bind-Value="@Content.Author">
+            <LabelTemplate>
+                <FluentLabel Weight="FontWeight.Bold">
+                    <FluentStack Orientation="Orientation.Horizontal">
+                        <span>Book Author</span>
+                        <FluentLabel Color="Color.Error">*</FluentLabel>
+                    </FluentStack>  
+                </FluentLabel>
+            </LabelTemplate>
+        </FluentTextField>
+        @* Category *@
+        <FluentTextField @bind-Value="@Content.Category">
+            <LabelTemplate>
+                <FluentLabel Weight="FontWeight.Bold">
+                    <FluentStack Orientation="Orientation.Horizontal">
+                        <span>Book Category</span>
+                        <FluentLabel Color="Color.Error">*</FluentLabel>
+                    </FluentStack>  
+                </FluentLabel>
+            </LabelTemplate>
+        </FluentTextField>
+        @* ModificationDate *@
+        @if(Content.Id != Guid.Empty)
+        {
+            <FluentSpacer Width="10" />
+            <FluentStack Orientation="Orientation.Vertical">
+                <FluentLabel Weight="FontWeight.Bold">Created</FluentLabel>
+                <FluentLabel>@Content.Created.ToString("dd-MM-yyyy")</FluentLabel>
+            </FluentStack>
+            
+            @if(Content.Modified.HasValue)
+            {
+                <FluentSpacer Width="10" />
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentLabel Weight="FontWeight.Bold">Modified</FluentLabel>
+                    <FluentLabel>@Content.Modified?.ToString("dd-MM-yyyy")</FluentLabel>
+                </FluentStack>
+            }
+        }
+    </FluentStack>
+</FluentDialogBody>
+
+@code {
+    [Parameter]
+    public BookEntity Content { get; set; } = default!;
+
+    private byte[] UploadedFile;
+    private string CoverImagePreview;
+
+    private void HandleFileUpload(ChangeEventArgs e)
+    {
+        var file = e.Value as IBrowserFile;
+        if (file != null)
+        {
+            UploadedFile = new byte[file.Size];
+            file.OpenReadStream().ReadAsync(UploadedFile);
+            CoverImagePreview = $"data:image/png;base64,{Convert.ToBase64String(UploadedFile)}";
+            Content.CoverImage = UploadedFile;
+        }
+    }
+
+    int ProgressPercent = 0;
+    FluentInputFileEventArgs[] Files = Array.Empty<FluentInputFileEventArgs>();
+
+    private async Task OnCompletedAsync(IEnumerable<FluentInputFileEventArgs> files)
+    {
+        Files = files.ToArray();
+
+        // For the demo, delete these files.
+        foreach (var file in Files)
+        {
+            file.LocalFile?.Delete();
+        }
+
+        // Wait 3 seconds before to reset the progress bar.
+        await Task.Delay(3000);
+        ProgressPercent = 0;
+    }
+}

@@ -1,0 +1,54 @@
+﻿@page "/books"
+@using BellsLibrary.API.Services.Models
+@using Microsoft.FluentUI.AspNetCore.Components
+@inherits BasePage
+@rendermode InteractiveServer
+
+<PageTitle>Books</PageTitle>
+
+<div style="margin-top:1em">
+    <FluentBreadcrumb>
+        <FluentBreadcrumbItem Href="/">
+            Home
+            <FluentIcon Value="@(new Icons.Regular.Size20.Home())" Color="@Color.Neutral" Slot="start" />
+        </FluentBreadcrumbItem>
+        <FluentBreadcrumbItem>
+            Books
+            <FluentIcon Value="@(new Icons.Regular.Size20.BowlSalad())" Color="@Color.Neutral" Slot="start" />
+        </FluentBreadcrumbItem>
+    </FluentBreadcrumb>
+</div>
+<div style="margin-top:1.5em">
+    <h1>Books</h1>
+</div>
+<div style="margin-bottom:3em">
+    <p>The best books in the world.</p>
+</div>
+
+@if (_books == null)
+{
+    <ProgressLoader ProgressText="Loading books..." Columns="4"></ProgressLoader>
+}
+else
+{
+    <div style="border-top:1px solid lightgrey;margin-bottom:3em">
+        <FluentToolbar Style="margin-top:0;padding-top:0">
+            <FluentButton Appearance="Appearance.Stealth" IconStart="@(new Icons.Regular.Size12.Add())" 
+                          @onclick="OnAddNewBookClick" Title="Add a book">Add a book</FluentButton>
+        </FluentToolbar>
+    </div>
+
+    <FluentDataGrid Id="booksGrid" Items=@_books TGridItem=BookEntity>
+        <TemplateColumn Title="Title" Sortable="true">
+            <span @onclick=@(() => OnEditBookClick(context)) style="font-weight:bold;text-decoration:underline;cursor:pointer">@context.Title</span>
+        </TemplateColumn>
+        <PropertyColumn Title="IsFeatured" Property="@(c => c!.IsFeatured ? "Yes" : "No")" Sortable="true" Align=Align.Start />
+        <PropertyColumn Title="Created" Property="@(c => c!.Created)" Format="MMM dd, yyyy" Sortable="true" Align=Align.Start />
+        <PropertyColumn Title="Modified" Property="@(c => c!.Modified)" Format="MMM dd, yyyy" Sortable="true" Align=Align.Start />
+        <TemplateColumn Title="Action">
+            <FluentIcon Value="@(new Icons.Regular.Size20.Delete())" Title="Delete book"
+                        Color="Color.Error" Style="cursor:pointer"
+                        @onclick="@(() => OnDeleteBookClick(context))" />
+        </TemplateColumn>
+    </FluentDataGrid>
+}

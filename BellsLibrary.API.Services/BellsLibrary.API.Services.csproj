@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BellsLibrary.API.Models\BellsLibrary.API.Models.csproj" />
+    <ProjectReference Include="..\BellsLibrary.Data.Models\BellsLibrary.Data.Models.csproj" />
+    <ProjectReference Include="..\BellsLibrary.Data\BellsLibrary.Data.csproj" />
+  </ItemGroup>
+
+</Project>
