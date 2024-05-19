@@ -35,7 +35,5 @@ namespace BellsLibrary.Data.Models
         [Required]
         [MaxLength(100, ErrorMessage = "First Name cannot be longer than 100 characters")]
         public required string Author { get; set; }
-
-        public bool? IsFeatured { get; set; }
     }
 }

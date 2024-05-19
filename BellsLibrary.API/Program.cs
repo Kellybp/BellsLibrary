@@ -1,5 +1,11 @@
 
 using BellsLibrary.API.Services.Extensions;
+using BellsLibrary.Data;
+using BellsLibrary.Data.Models.User;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+
 namespace BellsLibrary.API.MVC;
 
 public class Program {
@@ -14,10 +20,14 @@ public class Program {
         //Register MVC Services
         AddMvcServices(builder);
 
+        AddAuthentication(builder);
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         ConfigureMvcServices(app);
+
+        app.MapIdentityApi<ApplicationUser>();
 
         app.CreateDbIfNotExists();
 
@@ -34,6 +44,7 @@ public class Program {
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
@@ -43,13 +54,35 @@ public class Program {
     {
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        
     }
 
     private static void AddApplicationServices(WebApplicationBuilder builder)
     {
         builder.Services.AddBellsLibraryServices(builder.Configuration,
                                                  builder.Environment.IsProduction());
+    }
+
+    private static void AddAuthentication(WebApplicationBuilder builder)
+    {
+
+        builder.Services.AddAuthorization();
+
+        builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
+            .AddEntityFrameworkStores<BellsLibraryContext>();
+
+        //Swagger Authentication
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey
+            });
+
+            options.OperationFilter<SecurityRequirementsOperationFilter>();
+        });
     }
 
 }

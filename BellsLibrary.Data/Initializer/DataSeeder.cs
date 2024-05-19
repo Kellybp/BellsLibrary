@@ -1,5 +1,8 @@
 ﻿using BellsLibrary.Data.Models;
+using BellsLibrary.Data.Models.User;
 using Bogus;
+using Microsoft.AspNetCore.Identity;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BellsLibrary.Data.Initializer
 {
@@ -7,6 +10,8 @@ namespace BellsLibrary.Data.Initializer
     {
         Faker<Book>? _bookFaker = null;
         Faker<Loan>? _loanFaker = null;
+        Faker<ApplicationUser>? _identityUserFaker = null;
+        Faker<ApplicationUserRole>? _identityUserRoleFaker = null;
 
         public string[] categories = new string[] {
                 "Action/Adventure fiction",
@@ -66,26 +71,75 @@ namespace BellsLibrary.Data.Initializer
             return _bookFaker;
         }
 
-        public Faker<Loan> GetLoanGenerator(List<Book> books)
+        public Faker<Loan> GetLoanGenerator(List<Book> books, List<ApplicationUser> users)
         {
-
-            Guid[] bookIds = new Guid[books.Count];
-
-            for (int x = 0; x < books.Count; x++)
+            if(_loanFaker is null)
             {
-                bookIds[x] = books[x].Id;
-            }
+                Guid[] bookIds = new Guid[books.Count];
+                Guid[] userIds = new Guid[users.Count];
 
-            if (_loanFaker is null)
-            {
-                _loanFaker = new Faker<Loan>()
-                    .RuleFor(b => b.Id, f => Guid.NewGuid())
-                    .RuleFor(b => b.BookId, f => f.PickRandom(bookIds))
-                    .RuleFor(b => b.LoanDate, f => f.Date.Recent(30))
-                    .RuleFor(b => b.ReturnedDate, f => f.Random.Bool(0.5f) ? null : f.Date.Recent(30));
-            }
+                for (int x = 0; x < books.Count; x++)
+                {
+                    bookIds[x] = books[x].Id;
+                }
 
+                for (int x = 0; x < users.Count; x++)
+                {
+                    userIds[x] = users[x].Id;
+                }
+
+                if (_loanFaker is null)
+                {
+                    _loanFaker = new Faker<Loan>()
+                        .RuleFor(b => b.Id, f => Guid.NewGuid())
+                        .RuleFor(b => b.BookId, f => f.PickRandom(bookIds))
+                        .RuleFor(b => b.LoanDate, f => f.Date.Recent(30))
+                        .RuleFor(b => b.UserId, f => f.PickRandom(userIds))
+                        .RuleFor(b => b.ReturnedDate, f => f.Random.Bool(0.5f) ? null : f.Date.Recent(30));
+                }
+            }
             return _loanFaker;
+        }
+
+        public Faker<ApplicationUser> GetUserGenerator()
+        {
+            //Default Password
+            var hasher = new PasswordHasher<ApplicationUser>();
+            string password = hasher.HashPassword(null, "Pa$$w0rd");
+
+            _identityUserFaker = new Faker<ApplicationUser>()
+                 .RuleFor(u => u.Id, f => Guid.NewGuid())
+                 .RuleFor(u => u.UserName, f => f.Internet.UserName())
+                 .RuleFor(u => u.Email, f => f.Internet.Email())
+                 .RuleFor(u => u.PasswordHash, f => password)
+                 .RuleFor(u => u.EmailConfirmed, f => true);
+
+            
+
+            return _identityUserFaker.UseSeed(125);
+        }
+
+        public Faker<ApplicationUserRole> GetUserRoleGenerator(List<ApplicationUser> users)
+        {
+            Guid[] roles = new Guid[]
+            {
+                new Guid("1c5e174e-3b0e-446f-86af-483d56fd7210"),
+                new Guid("2c5e174e-3b0e-446f-86af-483d56fd7210"),
+                new Guid("3c5e174e-3b0e-446f-86af-483d56fd7210")
+            };
+
+            Guid[] userIds = new Guid[users.Count];
+
+            for (int x = 0; x < users.Count; x++)
+            {
+                userIds[x] = users[x].Id;
+            }
+            
+            _identityUserRoleFaker = new Faker<ApplicationUserRole>()
+                .RuleFor(u => u.RoleId, f => f.PickRandom(roles))
+                .RuleFor(u => u.UserId, f => f.PickRandom(userIds));
+
+            return _identityUserRoleFaker;
         }
     }
 }

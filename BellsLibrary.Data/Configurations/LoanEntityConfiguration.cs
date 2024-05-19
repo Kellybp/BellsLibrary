@@ -19,7 +19,9 @@ namespace BellsLibrary.Data.Configurations
                .WithMany()
                .HasForeignKey(l => l.BookId);
 
-            //builder.HasOne(User)
+            builder.HasOne(l => l.User)
+                .WithMany()
+                .HasForeignKey(l => l.UserId);
         }
     }
 }

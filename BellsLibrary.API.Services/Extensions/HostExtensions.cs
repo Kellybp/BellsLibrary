@@ -18,19 +18,25 @@ namespace BellsLibrary.API.Services.Extensions
                 var context = services.GetRequiredService<BellsLibraryContext>();
                 var isSeederRequired = context.Database.EnsureCreated();
 
+                //SeedDatabase
                 if(isSeederRequired)
                 {
-                    DataSeeder  _dataSeeder = new DataSeeder();
+                    DataSeeder _dataSeeder = new DataSeeder();
 
                     var books = _dataSeeder.GetBookGenerator().Generate(numberOfEntities);
                     context.AddRange(books);
 
-                    var loans = _dataSeeder.GetLoanGenerator(books).Generate(numberOfEntities);
+                    var users = _dataSeeder.GetUserGenerator().Generate(3);
+                    context.AddRange(users);
+
+                    var loans = _dataSeeder.GetLoanGenerator(books, users).Generate(numberOfEntities);
                     context.AddRange(loans);
 
-                    context.SaveChanges(); 
+                    //var userRole = _dataSeeder.GetUserRoleGenerator(users).Generate(numberOfEntities);
+                    //context.AddRange(userRole);
+
+                    context.SaveChanges();
                 }
-                
             }
         }
     }

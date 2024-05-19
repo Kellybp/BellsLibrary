@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using BellsLibrary.Data.Models.User;
 
 namespace BellsLibrary.Data.Models
 {
@@ -11,11 +12,11 @@ namespace BellsLibrary.Data.Models
         [ForeignKey("BookId")]
         public required Book Book { get; set; }
 
-        //[Required]
-        //public required int AccountId { get; set; }
+        [Required]
+        public required Guid UserId { get; set; }
 
-        //[ForeignKey("AccountId")]
-        //public required Account Account { get; set; }
+        [ForeignKey("UserId")]
+        public required ApplicationUser User { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
