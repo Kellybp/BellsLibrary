@@ -1,8 +1,10 @@
 ﻿using BellsLibrary.Data.Models;
 using BellsLibrary.Data.Models.User;
 using Bogus;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using static System.Reflection.Metadata.BlobBuilder;
+using System;
+using System.Web;
 
 namespace BellsLibrary.Data.Initializer
 {
@@ -65,7 +67,8 @@ namespace BellsLibrary.Data.Initializer
                     .RuleFor(b => b.PgCount, f => f.Random.Int(100, 1000))
                     .RuleFor(b => b.Category, f => f.PickRandom(categories))
                     .RuleFor(b => b.Author, f => f.Name.FullName())
-                    .RuleFor(b => b.CoverImage, f => ConvertToBytes(f.Image.PicsumUrl()));
+                    //.RuleFor(b => b.CoverImage, f =>  ConvertToBytes(f.Image.PicsumUrl()).Result);
+                    .RuleFor(b => b.CoverImage, f =>  f.Random.Bytes(123));
             }
 
             return _bookFaker;
@@ -142,17 +145,27 @@ namespace BellsLibrary.Data.Initializer
             return _identityUserRoleFaker;
         }
 
-        private byte[] ConvertToBytes(string filePath)
+        private async Task<byte[]> ConvertToBytes(string filePath)
         {
             try
             {
-                byte[] fileBytes = File.ReadAllBytes(filePath);
-                return fileBytes;
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(filePath);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        byte[] imageBytes = await response.Content.ReadAsByteArrayAsync();
+                        return imageBytes;
+                    }
+                    else
+                    {
+                        return new Faker().Random.Bytes(123);
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return null;
+                return new Faker().Random.Bytes(123);
             }
         }
     }
