@@ -149,6 +149,18 @@
                 </FluentStack>
             }
         }
+        @* CheckOut *@
+        @* @if (Content.Id != Guid.Empty)
+        {
+            <FluentCheckbox>
+                <LabelTemplate>
+                    <FluentLabel Weight="FontWeight.Bold">
+                        CheckIn
+                    </FluentLabel>
+                </LabelTemplate>
+            </FluentCheckbox>
+        } *@
+        
     </FluentStack>
 </FluentDialogBody>
 
@@ -156,6 +168,7 @@
     [Parameter]
     public BookEntity Content { get; set; } = default!;
     public Drawing.Bitmap bmp { get; set; }
+    public bool checkIn = false;    
 
     int ProgressPercent = 0;
     FluentInputFileEventArgs[] Files = Array.Empty<FluentInputFileEventArgs>();

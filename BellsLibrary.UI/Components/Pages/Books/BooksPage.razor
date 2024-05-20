@@ -38,7 +38,41 @@ else
         </FluentToolbar>
     </div>
 
-
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Cover Image</th>
+                <th scope="col">Author</th>
+                <th scope="col">Created</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody id="featuredTable">
+            @foreach (var featuredBook in _featured)
+            {
+                <tr>
+                    <td>
+                        <span @onclick="() => OnEditBookClick(featuredBook)"
+                              style="font-weight:bold;text-decoration:underline;cursor:pointer">
+                            @featuredBook.Title
+                        </span>
+                    </td>
+                    <td>
+                        <img id="image" src="data:image;base64,@System.Convert.ToBase64String(featuredBook.CoverImage)" alt="Converted Image">
+                    </td>
+                    <td>@featuredBook.Author</td>
+                    <td>@featuredBook.Created.ToString("MMM dd, yyyy")</td>
+                    <td>
+                        <FluentIcon Value="@(new Icons.Regular.Size20.Delete())" Title="Delete book"
+                                    Color="Color.Error" Style="cursor:pointer"
+                                    @onclick="@(() => OnDeleteBookClick(featuredBook))" />
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
 
     
     <input type="text" id="searchInput" class="form-control mb-4" placeholder="Search by book title..." onkeyup="searchTable()">
@@ -48,9 +82,11 @@ else
         <thead class="table-dark">
             <tr>
                 <th class="sortable" onclick="sortTable(0)" scope="col">Title</th>
-                <th class="sortable" onclick="sortTable(1)" scope="col">Created</th>
+                <th class="sortable" onclick="sortTable(1)" scope="col">Cover Image</th>
                 <th class="sortable" onclick="sortTable(2)" scope="col">Author</th>
-                <th class="sortable" onclick="sortTable(3)" scope="col">Action</th>
+                <th class="sortable" onclick="sortTable(3)" scope="col">Created</th>
+                <th class="sortable" onclick="sortTable(4)" scope="col">Available</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
     <tbody id="booksTable">
@@ -63,8 +99,32 @@ else
                                 @book.Title
                             </span>
                         </td>
-                        <td>@book.Created.ToString("MMM dd, yyyy")</td>
+                        <td>
+                            <img id="image" width="40px" height="40px" src="data:image;base64,@System.Convert.ToBase64String(book.CoverImage)" alt="Converted Image">
+                        </td>
                         <td>@book.Author</td>
+                        <td>@book.Created.ToString("MMM dd, yyyy")</td>
+                    @foreach(var loan in _loans)
+                    {
+                        if(loan.BookId == book.Id && loan.ReturnedDate == null)
+                        {
+                            availableSwitch = true;
+                            break;
+                        }
+                    }
+                    @if(availableSwitch){
+                        <td>
+                            <FluentIcon Value="@(new Icons.Regular.Size20.CheckboxUnchecked())" Title="Delete book"
+                                        Color="Color.Success"/>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <FluentIcon Value="@(new Icons.Regular.Size20.CheckboxChecked())" Title="Delete book"
+                                        Color="Color.Error"  />
+                        </td>
+                    }
                         <td>
                             <FluentIcon Value="@(new Icons.Regular.Size20.Delete())" Title="Delete book"
                                         Color="Color.Error" Style="cursor:pointer"
@@ -150,5 +210,7 @@ else
             </TemplateColumn>
         </FluentDataGrid>
  *@
-          
+          @code{
+              private bool availableSwitch = false;
+          }
 }

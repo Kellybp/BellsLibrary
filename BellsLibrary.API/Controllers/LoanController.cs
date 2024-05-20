@@ -18,7 +18,8 @@ namespace BellsLibrary.API.MVC.Controllers
             _service = service;
         }
 
-        [HttpGet(Name = nameof(GetLoans)), Authorize]
+        [HttpGet(Name = nameof(GetLoans))]
+        //[HttpGet(Name = nameof(GetLoans)), Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<LoanEntity>> GetLoans()
         {
@@ -26,7 +27,7 @@ namespace BellsLibrary.API.MVC.Controllers
             return loans;
         }
 
-        [HttpGet("{id:guid}", Name = "LoanById"), Authorize]
+        [HttpGet("{id:guid}", Name = "LoanById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -38,7 +39,7 @@ namespace BellsLibrary.API.MVC.Controllers
                                    TypedResults.Ok(loan);
         }
 
-        [HttpPost, Authorize]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] LoanEntity newLoan)
@@ -48,7 +49,7 @@ namespace BellsLibrary.API.MVC.Controllers
         }
 
 
-        [HttpPut("{id:guid}"), Authorize]
+        [HttpPut("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -60,7 +61,7 @@ namespace BellsLibrary.API.MVC.Controllers
         }
 
         // DELETE api/loan/5
-        [HttpDelete("{id:guid}"), Authorize]
+        [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]

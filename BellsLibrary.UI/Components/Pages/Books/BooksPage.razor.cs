@@ -2,6 +2,7 @@
 using BellsLibrary.UI.Services.Contracts;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using System.Linq;
 
 
 namespace BellsLibrary.UI.Components.Pages.Books;
@@ -10,8 +11,12 @@ public partial class BooksPage
 {
     [Inject]
     public required IBookService Service { get; set; }
+    [Inject]
+    public required ILoanService LoanService { get; set; }
 
     private IQueryable<BookEntity>? _books;
+    private IQueryable<LoanEntity>? _loans;
+    private IQueryable<BookEntity>? _featured;
 
     private IDialogReference? _dialog;
 
@@ -23,6 +28,9 @@ public partial class BooksPage
     private async Task LoadBooks()
     {
         _books = (await Service.GetAllBooksAsync()).AsQueryable();
+        _loans = (await LoanService.GetAllLoansAsync()).AsQueryable();
+        _featured = (await Service.GetAllBooksAsync()).AsQueryable();
+        _featured = _featured.OrderBy(x => Guid.NewGuid()).Take(5); ;
     }
 
     private async Task OnAddNewBookClick()

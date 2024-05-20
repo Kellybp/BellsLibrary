@@ -65,7 +65,7 @@ namespace BellsLibrary.Data.Initializer
                     .RuleFor(b => b.PgCount, f => f.Random.Int(100, 1000))
                     .RuleFor(b => b.Category, f => f.PickRandom(categories))
                     .RuleFor(b => b.Author, f => f.Name.FullName())
-                    .RuleFor(b => b.CoverImage, f => f.Random.Bytes(142));
+                    .RuleFor(b => b.CoverImage, f => ConvertToBytes(f.Image.PicsumUrl()));
             }
 
             return _bookFaker;
@@ -140,6 +140,20 @@ namespace BellsLibrary.Data.Initializer
                 .RuleFor(u => u.UserId, f => f.PickRandom(userIds));
 
             return _identityUserRoleFaker;
+        }
+
+        private byte[] ConvertToBytes(string filePath)
+        {
+            try
+            {
+                byte[] fileBytes = File.ReadAllBytes(filePath);
+                return fileBytes;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return null;
+            }
         }
     }
 }
