@@ -1,6 +1,6 @@
 # BellsLibrary
 
-BellsLibrary is an online library management system arbitrarily inspired by Belle's love of books in Beauty and the Beast. It features a web frontend application and a .NET backend.
+BellsLibrary is an online library management system arbitrarily inspired by Bell's love of books in Beauty and the Beast. It features a web frontend application and a .NET backend.
 
 ## Features
 ### User Roles
