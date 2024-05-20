@@ -7,7 +7,7 @@ namespace BellsLibrary.UI.Services
     public class LoanService : ILoanService
     {
         private readonly HttpClient _httpClient;
-        private const string _baseUri = "/api/book";
+        private const string _baseUri = "https://localhost:7055/api/loan";//Temp Fix - Add method to take in hard coded URI
 
         public LoanService(IHttpClientFactory httpClientFactory)
         {
