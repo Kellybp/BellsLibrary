@@ -1,14 +1,14 @@
-#BellsLibrary
+# BellsLibrary
 
 BellsLibrary is an online library management system arbitrarily inspired by Belle's love of books in Beauty and the Beast. It features a web frontend application and a .NET backend.
 
-##Features
-###User Roles
+## Features
+### User Roles
 
     - Librarians can add, edit, and remove books, and mark books as returned.
     - Customers can browse books, check them out, and leave reviews.
 
-###Frontend Application
+### Frontend Application
 
     - Sign Up/Login/Logout: Secure user authentication allowing role specification during sign-up. (Currently Commented Out)
     - Featured Books: Displays random books with their details like Title, Author, and Cover Image.
@@ -18,7 +18,7 @@ BellsLibrary is an online library management system arbitrarily inspired by Bell
     - Book Management: Librarians can manage the inventory of books through the frontend interface.
     - Book Checkout: Customers can check out books available for 5 days. (Work In Progress)
 
-###Backend (.NET Web API)
+### Backend (.NET Web API)
 
     - ASP.NET Core Web API: Backend API built using .NET 8+.
     - User Authentication and Authorization: Implemented using ASP.NET Identity. (Work In Progress)
@@ -26,11 +26,11 @@ BellsLibrary is an online library management system arbitrarily inspired by Bell
     - SQL Server Database: Includes essential tables such as Books with fields like Title, Author, etc.
     - API Documentation: Swagger UI/OpenAPI for documenting all API endpoints.
 
-##Additional Features
+## Additional Features
 
     - Seed Data: Using Bogus for .NET to seed the database with fictional book data.
 
-##Technologies Used
+## Technologies Used
 
     - Frontend: Bootstrap/FluentUI
     - Backend: ASP.NET Core 8+
@@ -39,7 +39,7 @@ BellsLibrary is an online library management system arbitrarily inspired by Bell
     - API Documentation: Swagger UI
     - Data Seeding: Bogus for .NET
 
-##Setup and Installation
+## Setup and Installation
 
    To use this sample application, follow these steps:
 
