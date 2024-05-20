@@ -47,10 +47,10 @@ else
     <table class="table table-striped">
         <thead class="table-dark">
             <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Created</th>
-                <th scope="col">Author</th>
-                <th scope="col">Action</th>
+                <th class="sortable" onclick="sortTable(0)" scope="col">Title</th>
+                <th class="sortable" onclick="sortTable(1)" scope="col">Created</th>
+                <th class="sortable" onclick="sortTable(2)" scope="col">Author</th>
+                <th class="sortable" onclick="sortTable(3)" scope="col">Action</th>
             </tr>
         </thead>
     <tbody id="booksTable">
@@ -106,7 +106,7 @@ else
             while (switching) {
                 switching = false;
                 rows = table.getElementsByTagName("TR");
-                for (i = 1; i < (rows.length - 1); i++) {
+                for (i = 0; i < (rows.length - 1); i++) {
                     shouldSwitch = false;
                     x = rows[i].getElementsByTagName("TD")[n];
                     y = rows[i + 1].getElementsByTagName("TD")[n];
@@ -136,9 +136,8 @@ else
         }
     </script>
 
-        @* <FluentTextField Id="search" @bind-Value="searchQuery" Placeholder="Search books..." OnChange="@FilterBooks()" Style="margin-bottom: 20px; width: 100%;" />
 
-        <FluentDataGrid Id="booksGrid" Items=@filteredBooks TGridItem=BookEntity>
+  @*       <FluentDataGrid Id="booksGrid" Items=@_books TGridItem=BookEntity>
             <TemplateColumn Title="Title" Sortable="true">
                 <span @onclick=@(() => OnEditBookClick(context)) style="font-weight:bold;text-decoration:underline;cursor:pointer">@context.Title</span>
             </TemplateColumn>
@@ -149,7 +148,7 @@ else
                             Color="Color.Error" Style="cursor:pointer"
                             @onclick="@(() => OnDeleteBookClick(context))" />
             </TemplateColumn>
-        </FluentDataGrid> *@
-
+        </FluentDataGrid>
+ *@
           
 }

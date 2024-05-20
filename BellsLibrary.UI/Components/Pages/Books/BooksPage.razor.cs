@@ -2,7 +2,6 @@
 using BellsLibrary.UI.Services.Contracts;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
-using System.Drawing;
 
 
 namespace BellsLibrary.UI.Components.Pages.Books;

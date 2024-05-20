@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using BellsLibrary.API.Models;
 using BellsLibrary.API.Services.Contracts;
 using BellsLibrary.API.Services.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BellsLibrary.API.MVC.Controllers
 {
@@ -17,7 +18,7 @@ namespace BellsLibrary.API.MVC.Controllers
             _service = service;
         }
 
-        [HttpGet(Name = nameof(GetLoans))]
+        [HttpGet(Name = nameof(GetLoans)), Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<LoanEntity>> GetLoans()
         {
@@ -25,7 +26,7 @@ namespace BellsLibrary.API.MVC.Controllers
             return loans;
         }
 
-        [HttpGet("{id:guid}", Name = "LoanById")]
+        [HttpGet("{id:guid}", Name = "LoanById"), Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -37,7 +38,7 @@ namespace BellsLibrary.API.MVC.Controllers
                                    TypedResults.Ok(loan);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] LoanEntity newLoan)
@@ -47,7 +48,7 @@ namespace BellsLibrary.API.MVC.Controllers
         }
 
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("{id:guid}"), Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -59,7 +60,7 @@ namespace BellsLibrary.API.MVC.Controllers
         }
 
         // DELETE api/loan/5
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{id:guid}"), Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
