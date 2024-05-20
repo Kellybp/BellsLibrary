@@ -1,4 +1,4 @@
-﻿@page "/books"
+﻿@page "/book"
 @using BellsLibrary.API.Services.Models
 @using Microsoft.FluentUI.AspNetCore.Components
 @inherits BasePage
@@ -14,7 +14,7 @@
         </FluentBreadcrumbItem>
         <FluentBreadcrumbItem>
             Books
-            <FluentIcon Value="@(new Icons.Regular.Size20.BowlSalad())" Color="@Color.Neutral" Slot="start" />
+            <FluentIcon Value="@(new Icons.Regular.Size20.Book())" Color="@Color.Neutral" Slot="start" />
         </FluentBreadcrumbItem>
     </FluentBreadcrumb>
 </div>
@@ -38,17 +38,118 @@ else
         </FluentToolbar>
     </div>
 
-    <FluentDataGrid Id="booksGrid" Items=@_books TGridItem=BookEntity>
-        <TemplateColumn Title="Title" Sortable="true">
-            <span @onclick=@(() => OnEditBookClick(context)) style="font-weight:bold;text-decoration:underline;cursor:pointer">@context.Title</span>
-        </TemplateColumn>
-        <PropertyColumn Title="IsFeatured" Property="@(c => c!.IsFeatured ? "Yes" : "No")" Sortable="true" Align=Align.Start />
-        <PropertyColumn Title="Created" Property="@(c => c!.Created)" Format="MMM dd, yyyy" Sortable="true" Align=Align.Start />
-        <PropertyColumn Title="Modified" Property="@(c => c!.Modified)" Format="MMM dd, yyyy" Sortable="true" Align=Align.Start />
-        <TemplateColumn Title="Action">
-            <FluentIcon Value="@(new Icons.Regular.Size20.Delete())" Title="Delete book"
-                        Color="Color.Error" Style="cursor:pointer"
-                        @onclick="@(() => OnDeleteBookClick(context))" />
-        </TemplateColumn>
-    </FluentDataGrid>
+
+
+    
+    <input type="text" id="searchInput" class="form-control mb-4" placeholder="Search by book title..." onkeyup="searchTable()">
+
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Created</th>
+                <th scope="col">Author</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+    <tbody id="booksTable">
+                @foreach (var book in _books)
+                {
+                    <tr>
+                        <td>
+                            <span @onclick="() => OnEditBookClick(book)"
+                                    style="font-weight:bold;text-decoration:underline;cursor:pointer">
+                                @book.Title
+                            </span>
+                        </td>
+                        <td>@book.Created.ToString("MMM dd, yyyy")</td>
+                        <td>@book.Author</td>
+                        <td>
+                            <FluentIcon Value="@(new Icons.Regular.Size20.Delete())" Title="Delete book"
+                                        Color="Color.Error" Style="cursor:pointer"
+                                        @onclick="@(() => OnDeleteBookClick(book))" />
+                        </td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+
+
+    <script>
+        function searchTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("booksTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("booksTable");
+            switching = true;
+            // Set the sorting direction to ascending:
+            dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.getElementsByTagName("TR");
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    </script>
+
+        @* <FluentTextField Id="search" @bind-Value="searchQuery" Placeholder="Search books..." OnChange="@FilterBooks()" Style="margin-bottom: 20px; width: 100%;" />
+
+        <FluentDataGrid Id="booksGrid" Items=@filteredBooks TGridItem=BookEntity>
+            <TemplateColumn Title="Title" Sortable="true">
+                <span @onclick=@(() => OnEditBookClick(context)) style="font-weight:bold;text-decoration:underline;cursor:pointer">@context.Title</span>
+            </TemplateColumn>
+            <PropertyColumn Title="Created" Property="@(c => c!.Created)" Format="MMM dd, yyyy" Sortable="true" Align=Align.Start />
+            <PropertyColumn Title="Author" Property="@(c => c!.Author)" Sortable="true" Align=Align.Start />
+            <TemplateColumn Title="Action">
+                <FluentIcon Value="@(new Icons.Regular.Size20.Delete())" Title="Delete book"
+                            Color="Color.Error" Style="cursor:pointer"
+                            @onclick="@(() => OnDeleteBookClick(context))" />
+            </TemplateColumn>
+        </FluentDataGrid> *@
+
+          
 }

@@ -2,6 +2,7 @@
 using BellsLibrary.UI.Services.Contracts;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using System.Drawing;
 
 
 namespace BellsLibrary.UI.Components.Pages.Books;
@@ -28,7 +29,7 @@ public partial class BooksPage
     private async Task OnAddNewBookClick()
     {
         var panelTitle = $"Add a book";
-        var result = await ShowPanel(panelTitle, new BookEntity() { Title = "New Book" });
+        var result = await ShowPanel(panelTitle, new BookEntity() { Title = "New Book" });;
         if (result.Cancelled)
         {
             return;

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Components\Pages\Loans\" />
+    <Folder Include="wwwroot\MDB\" />
   </ItemGroup>
 
 </Project>

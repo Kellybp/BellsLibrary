@@ -7,11 +7,11 @@ namespace BellsLibrary.UI.Services
     public class BookService : IBookService
     {
         private readonly HttpClient _httpClient;
-        private const string _baseUri = "/api/books";
+        private const string _baseUri = "api/book";
 
         public BookService(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient("AdminAPI");
+            _httpClient = httpClientFactory.CreateClient("AdminApi");
         }
 
         public async Task<BookEntity> AddBookAsync(BookEntity entity)
