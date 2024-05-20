@@ -6,7 +6,7 @@ BellsLibrary is an online library management system arbitrarily inspired by Bell
 ### User Roles
 
     - Librarians can add, edit, and remove books, and mark books as returned.
-    - Customers can browse books, check them out, and leave reviews.
+    - Customers can browse books and check them out. (Work In Progress)
 
 ### Frontend Application
 
