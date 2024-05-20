@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{F2249483-BD53-4380-87A7-893ED0B7A536}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{F2249483-BD53-4380-87A7-893ED0B7A536}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{E55F137A-DC11-41D0-A6F3-F24D58FC7F9C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{6BA74DDC-4CE6-4D13-A218-F4626FBB48CE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{5778DBAD-FAB7-4CC4-BCA7-6B5F4C39EF7A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{5778DBAD-FAB7-4CC4-BCA7-6B5F4C39EF7A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellsLibrary.Data", "BellsLibrary.Data\BellsLibrary.Data.csproj", "{4243B358-70DE-4D8F-A176-9E596C5E5865}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -24,15 +24,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellsLibrary.App.Console", 
 		{E9DAE689-A5C5-43DF-A715-EBF649A07249} = {E9DAE689-A5C5-43DF-A715-EBF649A07249}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellsLibrary.API.MVC", "BellsLibrary.API\BellsLibrary.API.MVC.csproj", "{CB4968B8-D77E-4226-8C69-6ACFED770F13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellsLibrary.API.MVC", "BellsLibrary.API\BellsLibrary.API.MVC.csproj", "{CB4968B8-D77E-4226-8C69-6ACFED770F13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellsLibrary.API.Models", "BellsLibrary.API.Models\BellsLibrary.API.Models.csproj", "{7B57C03E-D43A-433E-9D58-0EDAB6585E05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellsLibrary.API.Models", "BellsLibrary.API.Models\BellsLibrary.API.Models.csproj", "{7B57C03E-D43A-433E-9D58-0EDAB6585E05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellsLibrary.API.Services", "BellsLibrary.API.Services\BellsLibrary.API.Services.csproj", "{63BCDE4A-DE7A-4621-B586-F5CDA44AF57A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellsLibrary.API.Services", "BellsLibrary.API.Services\BellsLibrary.API.Services.csproj", "{63BCDE4A-DE7A-4621-B586-F5CDA44AF57A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellsLibrary.UI.Services", "BellsLibrary.UI.Services\BellsLibrary.UI.Services.csproj", "{B73B7D6B-323F-489F-8DF9-321F97BD4768}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellsLibrary.UI.Services", "BellsLibrary.UI.Services\BellsLibrary.UI.Services.csproj", "{B73B7D6B-323F-489F-8DF9-321F97BD4768}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellsLibrary.UI", "BellsLibrary.UI\BellsLibrary.UI.csproj", "{D03C12CF-7DC4-4F37-8C17-DB7B45D82810}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellsLibrary.UI", "BellsLibrary.UI\BellsLibrary.UI.csproj", "{D03C12CF-7DC4-4F37-8C17-DB7B45D82810}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

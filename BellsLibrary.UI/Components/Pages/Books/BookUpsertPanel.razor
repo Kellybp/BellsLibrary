@@ -1,5 +1,6 @@
 ﻿@using BellsLibrary.API.Services.Models
 @using Microsoft.FluentUI.AspNetCore.Components
+@using Drawing = System.Drawing
 
 @implements IDialogContentComponent<BookEntity>
 
@@ -26,8 +27,6 @@
             </LabelTemplate>
         </FluentTextArea>
         <FluentSpacer Width="10" />
-        @* IsFeatured *@
-        <FluentCheckbox @bind-Value="@Content.IsFeatured">Is Featured</FluentCheckbox>
         @* Image *@
         <FluentInputFile Id="my-file-uploader"
                          Mode="InputFileMode.SaveToTemporaryFolder"
@@ -47,16 +46,19 @@
                     Drag files here you wish to upload,
                     or <label for="my-file-uploader">browse</label>
                     for them<span style="color: red;">*</span>.
-                    <br />
-                    <em>Maximum of 4 files allowed.</em>
                 </div>
 
-                <div>
+                @* <div>
                     <br />
                     <a href="#">Read more about our supported file formats.</a>
-                </div>
+                </div> *@
             </ChildContent>
         </FluentInputFile>
+        @if (Content.Id != Guid.Empty)
+        {
+            <img id="image" src="data:image;base64,@System.Convert.ToBase64String(Content.CoverImage)" alt="Converted Image">
+
+        }
 
         @if (Files.Any())
         {
@@ -74,9 +76,6 @@
                 }
             </ul>
         }
-
-       @*  <FluentFileInput @bind-Value="@UploadedFile" Label="Cover Image" OnChange="HandleFileUpload" />
-        <img alt="Cover Image Preview" src="@CoverImagePreview" style="max-width: 200px; max-height: 200px;" /> *@
 
         @* Publication Date *@
         @* <FluentDatePicker @bind-Value="@Content.PublicationDate" Label="Publication Date" Style="height: 250px;" /> *@
@@ -113,6 +112,14 @@
                 </FluentLabel>
             </LabelTemplate>
         </FluentTextField>
+        @* Publisher *@
+        <FluentTextArea @bind-Value="@Content.Publisher">
+            <LabelTemplate>
+                <FluentLabel Weight="FontWeight.Bold">
+                    Description
+                </FluentLabel>
+            </LabelTemplate>
+        </FluentTextArea>
         @* Category *@
         <FluentTextField @bind-Value="@Content.Category">
             <LabelTemplate>
@@ -148,21 +155,7 @@
 @code {
     [Parameter]
     public BookEntity Content { get; set; } = default!;
-
-    private byte[] UploadedFile;
-    private string CoverImagePreview;
-
-    private void HandleFileUpload(ChangeEventArgs e)
-    {
-        var file = e.Value as IBrowserFile;
-        if (file != null)
-        {
-            UploadedFile = new byte[file.Size];
-            file.OpenReadStream().ReadAsync(UploadedFile);
-            CoverImagePreview = $"data:image/png;base64,{Convert.ToBase64String(UploadedFile)}";
-            Content.CoverImage = UploadedFile;
-        }
-    }
+    public Drawing.Bitmap bmp { get; set; }
 
     int ProgressPercent = 0;
     FluentInputFileEventArgs[] Files = Array.Empty<FluentInputFileEventArgs>();
@@ -170,6 +163,8 @@
     private async Task OnCompletedAsync(IEnumerable<FluentInputFileEventArgs> files)
     {
         Files = files.ToArray();
+
+        Content.CoverImage = CovertToBytes(Files[0].LocalFile.ToString());
 
         // For the demo, delete these files.
         foreach (var file in Files)
@@ -180,5 +175,19 @@
         // Wait 3 seconds before to reset the progress bar.
         await Task.Delay(3000);
         ProgressPercent = 0;
+    }
+
+    private byte[] CovertToBytes(string filePath)
+    {
+        try
+        {
+            byte[] fileBytes = File.ReadAllBytes(filePath);
+            return fileBytes;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+            return null;
+        }
     }
 }

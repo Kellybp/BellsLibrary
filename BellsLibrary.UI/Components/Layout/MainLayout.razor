@@ -14,15 +14,9 @@
         </FluentBodyContent>
     </FluentStack>
     <FluentFooter>
-        <div class="link1">
-            <a href="https://www.fluentui-blazor.net" target="_blank">Documentation and demos</a>
-        </div>
-        <div class="link2">
-            <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor" target="_blank">About Blazor</a>
-        </div>
     </FluentFooter>
 </FluentLayout>
-<FluentDialogProvider />
+<FluentDialogProvider @rendermode="RenderMode.InteractiveServer" />
 <FluentToastProvider MaxToastCount="10" />
 <div id="blazor-error-ui">
     An unhandled error has occurred.
