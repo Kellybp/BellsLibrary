@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using BellsLibrary.API.Models;
 using BellsLibrary.API.Services.Contracts;
 using BellsLibrary.API.Services.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BellsLibrary.API.MVC.Controllers
 {
@@ -17,6 +18,7 @@ namespace BellsLibrary.API.MVC.Controllers
             _service = service;
         }
 
+        //[HttpGet(Name = nameof(GetBooks)), Authorize]
         [HttpGet(Name = nameof(GetBooks))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<BookEntity>> GetBooks()

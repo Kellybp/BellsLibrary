@@ -1,6 +1,9 @@
 using BellsLibrary.UI.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using BellsLibrary.UI.Services.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using BellsLibrary.Data;
 
 namespace BellsLibrary.UI
 {
@@ -48,6 +51,8 @@ namespace BellsLibrary.UI
                             .AddInteractiveServerComponents();
 
             builder.Services.AddFluentUIComponents();
+
+            builder.Services.AddAuthorization();
         }
     
     }
